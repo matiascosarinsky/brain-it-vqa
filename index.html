@@ -46,7 +46,7 @@
       </div>
 
       <div class="affiliation">
-        Weizmann Institute of Science
+        <img src="figures/weizmann-logo.svg" alt="Weizmann Institute of Science" class="affiliation-logo" />
       </div>
 
       <div class="btns">
@@ -115,12 +115,17 @@
         <h2>Architecture</h2>
 
         <p>
-          Brain-IT-VQA extends the Brain Interaction Transformer (Brain-IT) to decode
-          language representations directly from fMRI activity. The model organizes
-          voxel-level signals into functional brain tokens, processes them through
-          attention layers, and combines them with a pretrained vision-language model
-          to generate captions and answer natural-language questions about viewed
-          images.
+          Brain-IT-VQA builds on the
+          <a class="paper-link"
+            href="https://arxiv.org/abs/2510.25976"
+            target="_blank">
+            Brain Interaction Transformer (Brain-IT)
+          </a>
+          for direct visual question answering from fMRI signals. The model converts
+          brain activity into language-conditioning representations and combines
+          them with a pretrained vision-language model to generate captions and
+          answer natural-language questions about viewed images — without explicit
+          image reconstruction.
         </p>
 
         <figure>
@@ -134,7 +139,7 @@
         <h2>NSD-VQA Dataset</h2>
 
         <p>
-          NSD-VQA is a large-scale benchmark for visual question answering from fMRI,
+          NSD-VQA is a new benchmark for visual question answering from fMRI,
           built on the Natural Scenes Dataset (NSD). The dataset provides approximately
           20 question-answer pairs per image across 20 controlled question categories,
           enabling fine-grained evaluation of which forms of visual and semantic
@@ -142,7 +147,16 @@
         </p>
 
         <figure>
-          <img src="figures/dataset.png" alt="NSD-VQA dataset construction figure" />
+          <img src="figures/dataset.png"
+              alt="NSD-VQA dataset construction figure" />
+
+          <figcaption>
+            <strong><em>NSD-VQA</em> dataset construction pipeline.</strong>
+            Starting from NSD images, we generate structured annotations using a
+            vision-language model, followed by filtering and verification.
+            Template-based question generation then produces multiple question-answer
+            pairs per image across controlled question categories.
+          </figcaption>
         </figure>
 
       </section>
@@ -156,7 +170,8 @@
           different forms of visual and semantic understanding. Different question
           categories exhibit distinct spatial contribution patterns, suggesting that
           different forms of visual information rely on partially different neural
-          representations.
+          representations. The figure below visualizes voxel-cluster contributions
+          for the <em>food</em> and <em>holding</em> question categories.
         </p>
 
         <figure>
@@ -171,7 +186,8 @@
         <h2>Interactive Demo</h2>
 
         <p>
-          Explore Brain-IT-VQA predictions on NSD test images.
+          Explore Brain-IT-VQA captioning and visual question answering predictions
+          on held-out NSD test images choosing questions from the NSD-VQA dataset.
         </p>
 
         <div class="demo-container">
@@ -292,7 +308,7 @@
     uniqueImages.forEach(imgId => {
       const option = document.createElement("option");
       option.value = imgId;
-      option.textContent = `NSD Image #${String(imgId).padStart(5, "0")}`;
+      option.textContent = `NSD Test Image #${String(imgId).padStart(3, "0")}`;
       imageSelect.appendChild(option);
     });
 

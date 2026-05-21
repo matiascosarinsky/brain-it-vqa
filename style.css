@@ -30,6 +30,23 @@ a {
   text-decoration: none;
 }
 
+figure figcaption {
+  margin-top: 18px;
+  line-height: 1.5;
+}
+
+.paper-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.paper-link:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
 .page {
   max-width: 1050px;
   margin: 0 auto;
@@ -68,10 +85,16 @@ header {
 
 .affiliation {
   margin-top: 2px;
-  font-family: "STIX Two Text", serif;
-  font-size: 22px;
-  font-style: italic;
-  color: #5c564f;
+  min-height: 56px;
+}
+
+.affiliation-logo {
+  display: block;
+  margin: 0 auto;
+  height: 64px;
+  width: auto;
+  max-width: 360px;
+  object-fit: contain;
 }
 
 .btns {

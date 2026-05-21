@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Brain-IT-VQA</title>
+  <meta name="description" content="Brain-IT-VQA project page." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=STIX+Two+Text:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <div class="page">
+
+    <header>
+
+      <h1 class="title-main">Brain-IT-VQA</h1>
+
+      <div class="title-sub">
+        From Brain Signals to Answers
+      </div>
+
+      <div class="authors">
+        Roman Beliy,
+        Matias Cosarinsky,
+        Oliver Heinimann,
+        Navve Wasserman,
+        Michal Irani
+      </div>
+
+      <div class="affiliation">
+        Weizmann Institute of Science
+      </div>
+
+      <div class="btns">
+
+        <a class="btn" href="#">
+          <i class="fas fa-file-alt"></i>
+          Paper
+        </a>
+
+        <a class="btn" href="#">
+          <i class="fas fa-database"></i>
+          Dataset
+        </a>
+
+        <a class="btn" href="#">
+          <i class="fab fa-github"></i>
+          Code
+        </a>
+
+      </div>
+
+    </header>
+
+    <main>
+
+      <section id="abstract">
+
+        <h2>Abstract</h2>
+
+        <p class="abstract">
+          Decoding visual content from fMRI signals recorded while a person views images,
+          and specifically answering questions about the seen images, is a long-standing
+          challenge. While significant progress has been made in recent years in visual
+          question answering (VQA) from fMRI, performance remains limited. Moreover,
+          although recent models can make increasingly accurate predictions, they have
+          rarely been used as tools for understanding the structure of visual
+          representations in the brain.
+        </p>
+
+        <p class="abstract">
+          We present <strong><em>Brain-IT-VQA</em></strong>, a framework for visual
+          question answering from fMRI. Building on the Brain Interaction Transformer
+          (Brain-IT), our method decodes <em>language</em> tokens from brain activity
+          and integrates them with a language model to answer visual questions.
+          Our model substantially outperforms previous fMRI-based captioning and
+          VQA approaches.
+        </p>
+
+        <p class="abstract">
+          We further introduce <strong><em>NSD-VQA</em></strong>, a new dataset and
+          benchmark for visual question answering from fMRI. Unlike existing image-fMRI
+          VQA datasets, which typically provide only a few broad and weakly controlled
+          questions per image, <em>NSD-VQA</em> provides on average 20 question-answer
+          pairs per image across 20 controlled question categories that disentangle
+          multiple levels of visual understanding.
+        </p>
+
+        <figure>
+          <img src="figures/teaser.png" alt="Brain-IT-VQA teaser figure" />
+        </figure>
+
+      </section>
+
+      <section id="architecture">
+
+        <h2>Architecture</h2>
+
+        <p>
+          Brain-IT-VQA extends the Brain Interaction Transformer (Brain-IT) to decode
+          language representations directly from fMRI activity. The model organizes
+          voxel-level signals into functional brain tokens, processes them through
+          attention layers, and combines them with a pretrained vision-language model
+          to generate captions and answer natural-language questions about viewed
+          images.
+        </p>
+
+        <figure>
+          <img src="figures/arch2.png" alt="Brain-IT-VQA architecture diagram" />
+        </figure>
+
+      </section>
+
+      <section id="dataset">
+
+        <h2>NSD-VQA Dataset</h2>
+
+        <p>
+          NSD-VQA is a large-scale benchmark for visual question answering from fMRI,
+          built on the Natural Scenes Dataset (NSD). The dataset provides approximately
+          20 question-answer pairs per image across 20 controlled question categories,
+          enabling fine-grained evaluation of which forms of visual and semantic
+          information can be decoded from brain activity.
+        </p>
+
+        <figure>
+          <img src="figures/dataset.png" alt="NSD-VQA dataset construction figure" />
+        </figure>
+
+      </section>
+
+      <section id="brain-regions">
+
+        <h2>Decoding Contribution Analysis</h2>
+
+        <p>
+          Brain-IT-VQA enables analysis of how different brain regions contribute to
+          different forms of visual and semantic understanding. Different question
+          categories exhibit distinct spatial contribution patterns, suggesting that
+          different forms of visual information rely on partially different neural
+          representations.
+        </p>
+
+        <figure>
+          <img src="figures/row_clusters1.jpeg"
+            alt="Voxel-cluster contribution analysis" />
+        </figure>
+
+      </section>
+
+      <section id="demo">
+
+        <h2>Interactive Demo</h2>
+
+        <p>
+          Explore Brain-IT-VQA predictions on NSD test images.
+        </p>
+
+        <div class="demo-container">
+
+          <div class="demo-controls">
+
+            <div class="demo-control">
+              <label>Select Image</label>
+
+              <select id="imageSelect"></select>
+            </div>
+
+            <div class="demo-control">
+              <label>Select Question</label>
+
+              <select id="questionSelect"></select>
+            </div>
+
+          </div>
+
+          <div class="demo-panel">
+
+            <div class="demo-image-wrap">
+
+              <img
+                id="demoImage"
+                src="data/images/00000.png"
+                alt="Demo image"
+              />
+
+            </div>
+
+            <div class="demo-results">
+
+              <div class="caption-label">
+                Caption
+              </div>
+
+              <div class="caption-text" id="captionText">
+                Loading...
+              </div>
+
+              <div class="qa-list">
+
+                <div class="qa-row">
+
+                  <div class="qa-question-line">
+                    <span class="q-label">Q:</span>
+
+                    <span class="qa-question" id="demoQuestion">
+                      Loading...
+                    </span>
+                  </div>
+
+                  <div class="qa-answer-line">
+                    <span class="a-label">A:</span>
+
+                    <span class="qa-answer" id="demoAnswer">
+                      Loading...
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section id="bibtex">
+
+        <h2>BibTeX</h2>
+
+<pre>@article{brainitvqa2026,
+  title     = {Brain-IT-VQA: From Brain Signals to Answers},
+  author    = {Beliy, Roman and Cosarinsky, Matias and Heinimann, Oliver and Wasserman, Navve and Irani, Michal},
+  journal   = {},
+  year      = {2026}
+}</pre>
+
+      </section>
+
+    </main>
+
+    <footer>
+      © 2026 Brain-IT-VQA Project Page
+    </footer>
+
+  </div>
+
+  <script src="data/csvs/demo-data.js"></script>
+
+  <script>
+  const demoData = window.BRAIN_IT_VQA_DEMO || { captionsData: [], vqaSingleData: [] };
+  let captionsData = demoData.captionsData || [];
+  let vqaData = demoData.vqaSingleData || [];
+
+  const imageSelect = document.getElementById("imageSelect");
+  const questionSelect = document.getElementById("questionSelect");
+  const demoImage = document.getElementById("demoImage");
+  const captionText = document.getElementById("captionText");
+  const demoQuestion = document.getElementById("demoQuestion");
+  const demoAnswer = document.getElementById("demoAnswer");
+
+  async function loadData() {
+    initializeImages();
+  }
+
+  function initializeImages() {
+    const uniqueImages = [...new Set(vqaData.map(x => x.img_id))].sort((a, b) => a - b);
+
+    imageSelect.innerHTML = "";
+    uniqueImages.forEach(imgId => {
+      const option = document.createElement("option");
+      option.value = imgId;
+      option.textContent = `NSD Image #${String(imgId).padStart(5, "0")}`;
+      imageSelect.appendChild(option);
+    });
+
+    imageSelect.addEventListener("change", updateImage);
+    questionSelect.addEventListener("change", updateQA);
+
+    if (uniqueImages.length) {
+      imageSelect.value = uniqueImages[0];
+      updateImage();
+    } else {
+      captionText.textContent = "No images found.";
+      demoQuestion.textContent = "No questions found.";
+      demoAnswer.textContent = "No answers found.";
+    }
+  }
+
+  function updateImage() {
+    const imgId = Number(imageSelect.value);
+    demoImage.src = `data/images/${String(imgId).padStart(5, "0")}.png`;
+
+    const captionRow = captionsData.find(x => x.img_id === imgId);
+    captionText.textContent = captionRow ? captionRow.caption_pred : "Caption not found.";
+
+    const rows = vqaData.filter(x => x.img_id === imgId);
+    questionSelect.innerHTML = "";
+
+    rows.forEach((row, idx) => {
+      const option = document.createElement("option");
+      option.value = idx;
+      option.textContent = row.question;
+      questionSelect.appendChild(option);
+    });
+
+    if (rows.length) {
+      questionSelect.value = "0";
+      updateQA();
+    } else {
+      demoQuestion.textContent = "No questions found.";
+      demoAnswer.textContent = "No answers found.";
+    }
+  }
+
+  function updateQA() {
+    const imgId = Number(imageSelect.value);
+    const rows = vqaData.filter(x => x.img_id === imgId);
+    const idx = Number(questionSelect.value);
+    const row = rows[idx];
+
+    if (!row) {
+      demoQuestion.textContent = "No question selected.";
+      demoAnswer.textContent = "No answer available.";
+      return;
+    }
+
+    demoQuestion.textContent = row.question;
+    demoAnswer.textContent = row.predicted_answer;
+  }
+
+  loadData().catch(err => {
+    console.error(err);
+    captionText.textContent = "Failed to load demo data.";
+    demoQuestion.textContent = "Failed to load demo data.";
+    demoAnswer.textContent = "Check that the page can load data/csvs/demo-data.js.";
+  });
+
+  </script>
+
+</body>
+
+</html>

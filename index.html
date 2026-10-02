@@ -93,11 +93,11 @@
 
         <p class="abstract">
           We present <strong><em>Brain-IT-VQA</em></strong>, a framework for visual
-          question answering from fMRI. Building on the Brain Interaction Transformer
-          (Brain-IT), our method decodes <em>language</em> tokens from brain activity
-          and integrates them with a language model to answer visual questions.
-          Our model substantially outperforms previous fMRI-based captioning and
-          VQA approaches.
+          question answering from fMRI. Unlike previous methods, which extract a fixed
+          representation from the fMRI signal, our extraction is conditioned on the
+          question itself, so what is decoded from brain activity depends on what is
+          being asked. Our model substantially outperforms previous fMRI-based
+          captioning and VQA approaches.
         </p>
 
         <p class="abstract">
@@ -105,8 +105,8 @@
           benchmark for visual question answering from fMRI. Unlike existing image-fMRI
           VQA datasets, which typically provide only a few broad and weakly controlled
           questions per image, <em>NSD-VQA</em> provides on average 20 question-answer
-          pairs per image across 20 controlled question categories that disentangle
-          multiple levels of visual understanding.
+          pairs per image, across a wide range of controlled question categories that
+          disentangle multiple levels of visual understanding.
         </p>
 
         <figure>
@@ -126,11 +126,15 @@
             target="_blank">
             Brain Interaction Transformer (Brain-IT)
           </a>
-          for direct visual question answering from fMRI signals. The model converts
-          brain activity into language-conditioning representations and combines
-          them with a pretrained vision-language model to generate captions and
-          answer natural-language questions about viewed images — without explicit
-          image reconstruction.
+          for direct captioning and visual question answering from fMRI signals. We
+          extend Brain-IT with <strong>Q-BIT</strong>, a question-conditioned Brain
+          Interaction Transformer that converts voxel-level fMRI activity into Brain
+          Tokens and extracts task-relevant information based on the question being
+          asked. Question tokens and learnable query tokens interact with the Brain
+          Tokens through self-attention and cross-attention, making the brain readout
+          <strong>question-dependent</strong>. The resulting representations are
+          projected into soft prompts that condition a frozen language model to
+          generate captions and answers without explicit image reconstruction.
         </p>
 
         <figure>
@@ -219,7 +223,7 @@
 
               <img
                 id="demoImage"
-                src="data/images/00000.png"
+                src="data/images/00002.png"
                 alt="Demo image"
               />
 
@@ -324,7 +328,7 @@
     questionSelect.addEventListener("change", updateQA);
 
     if (uniqueImages.length) {
-      imageSelect.value = uniqueImages[0];
+      imageSelect.value = uniqueImages.includes(2) ? "2" : uniqueImages[0];
       updateImage();
     } else {
       captionText.textContent = "No images found.";
@@ -351,7 +355,10 @@
     });
 
     if (rows.length) {
-      questionSelect.value = "0";
+      const defaultQuestionIdx = imgId === 2
+        ? rows.findIndex(row => row.question === "What is the person doing?")
+        : -1;
+      questionSelect.value = String(defaultQuestionIdx >= 0 ? defaultQuestionIdx : 0);
       updateQA();
     } else {
       demoQuestion.textContent = "No questions found.";

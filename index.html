@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scalei=1" />
 
   <title>Brain-IT-VQA</title>
   <meta name="description" content="Brain-IT-VQA project page." />
@@ -361,7 +361,7 @@
 
     if (rows.length) {
       const defaultQuestionIdx = imgId === 2
-        ? rows.findIndex(row => row.question === "What is the person doing?")
+        ? rows.findIndex(row => row.question === "Where is the scene located")
         : -1;
       questionSelect.value = String(defaultQuestionIdx >= 0 ? defaultQuestionIdx : 0);
       updateQA();
